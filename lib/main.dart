@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 void main() {
   return runApp(
@@ -10,16 +11,29 @@ void main() {
           title: Text('Dicee'),
           backgroundColor: Colors.red,
         ),
-        body: DicePage(),
+        body: _DicePageState(),
       ),
     ),
   );
 }
 
-class DicePage extends StatelessWidget {
+class _DicePageState extends StatefulWidget {
+  @override
+  __DicePageStateState createState() => __DicePageStateState();
+}
+
+class __DicePageStateState extends State<_DicePageState> {
+  int lefDiceNumber = 1;
+  int rightDiceNumber = 1;
+  void changeFaceDice() {
+    setState(() {
+      lefDiceNumber = Random().nextInt(6) + 1;
+      rightDiceNumber = Random().nextInt(6) + 1;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    var lefDiceNumber = 5;
     return Center(
       child: Row(
         children: [
@@ -28,6 +42,7 @@ class DicePage extends StatelessWidget {
             child: FlatButton(
               onPressed: () {
                 print('Button left got pressed');
+                changeFaceDice();
               },
               child: Image(
                 image: AssetImage('images/dice$lefDiceNumber.png'),
@@ -39,8 +54,9 @@ class DicePage extends StatelessWidget {
             child: FlatButton(
               onPressed: () {
                 print('Button right got pressed');
+                changeFaceDice();
               },
-              child: Image.asset('images/dice1.png'),
+              child: Image.asset('images/dice$rightDiceNumber.png'),
             ),
           ),
         ],
